@@ -29,6 +29,10 @@ def load_data(path):
 
 
 def run_analysis():
+    """
+    main section, runs the project and prints the needed outputs
+    :return: null
+    """
     file_path = './winequality.csv'
     data = load_data(file_path)
     low_correlation, high_correlation, linear_names = check_correlation(data)
@@ -47,22 +51,39 @@ def run_analysis():
 
 
 def check_correlation(data):
-    minimum, maximum, temp = 2, -2, 0
+    """
+     checks the minimum and maximum correlations between features
+    :param data: data
+    :return: min and max correlation, and a dict with the fitting feature names
+    """
+    minimum, maximum, temp = 1, 0, 0
     correlation_dict = {'min': ["null", "null"], 'max': ["null", "null"]}
     for index, key in enumerate(list(data.keys())[:-2], start=1):
         for second_key in list(data.keys())[index:-1]:
             temp = correlation(data[key], data[second_key])
-            if temp > maximum:
+            if distance_from_zero(temp) > distance_from_zero(maximum):
                 maximum = temp
                 correlation_dict['max'][0] = key
                 correlation_dict['max'][1] = second_key
 
-            if temp < minimum:
+            if distance_from_zero(temp) < distance_from_zero(minimum):
                 minimum = temp
                 correlation_dict['min'][0] = key
                 correlation_dict['min'][1] = second_key
 
     return minimum, maximum, correlation_dict
+
+
+def distance_from_zero(correlation):
+    """
+    returns correlation`s distance from zero
+    :param correlation: correlation
+    :return: distance from zero
+    """""
+
+    if correlation > 0:
+        return correlation
+    return correlation * (-1)
 
 
 if __name__ == '__main__':
