@@ -22,17 +22,18 @@ def variance(list_of_values):
 
 
 def covariance(first_list_of_values, second_list_of_values):
-    result, mean1, mean2 = 0, mean(first_list_of_values), mean(second_list_of_values)
+    result, mean_1, mean_2 = 0, mean(first_list_of_values), mean(second_list_of_values)
     for value1, value2 in zip(first_list_of_values, second_list_of_values):
-        cov1 = value1 - mean1
-        cov2 = value2 - mean2
+        cov1 = value1 - mean_1
+        cov2 = value2 - mean_2
         result += (cov1 * cov2)
 
     return result / (len(first_list_of_values) - 1)
 
 
 def correlation(first_list_of_values, second_list_of_values):
-    s1 = pow(variance(first_list_of_values), 0.5)
-    s2 = pow(variance(second_list_of_values), 0.5)
+    deviation_1 = pow(variance(first_list_of_values), 0.5)
+    deviation_2 = pow(variance(second_list_of_values), 0.5)
     result = covariance(first_list_of_values, second_list_of_values)
-    return result / (s1 * s2)
+
+    return result / (deviation_1 * deviation_2)

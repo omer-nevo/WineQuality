@@ -53,37 +53,30 @@ def run_analysis():
 def check_correlation(data):
     """
      checks the minimum and maximum correlations between features
-    :param data: data
-    :return: min and max correlation, and a dict with the fitting feature names
+    :param data: a dictionary from the cvs file, 12 keys
+    :return: min and max correlation, and a dictionary with the fitting feature names
     """
-    minimum, maximum, temp = 1, 0, 0
-    correlation_dict = {'min': ["null", "null"], 'max': ["null", "null"]}
-    for index, key in enumerate(list(data.keys())[:-2], start=1):
+    weak, strong, temp = 1, 0, 0
+    correlation_dictionary = {'min': ["null", "null"], 'max': ["null", "null"]}
+
+    for index, first_key in enumerate(list(data.keys())[:-2], start=1):
         for second_key in list(data.keys())[index:-1]:
-            temp = correlation(data[key], data[second_key])
-            if distance_from_zero(temp) > distance_from_zero(maximum):
-                maximum = temp
-                correlation_dict['max'][0] = key
-                correlation_dict['max'][1] = second_key
+            temp = correlation(data[first_key], data[second_key])
+            if temp > strong:
+                strong = temp
+                correlation_dictionary['max'][0] = first_key
+                correlation_dictionary['max'][1] = second_key
+            if abs(temp) < abs(weak):
+                weak = temp
+                correlation_dictionary['min'][0] = first_key
+                correlation_dictionary['min'][1] = second_key
 
-            if distance_from_zero(temp) < distance_from_zero(minimum):
-                minimum = temp
-                correlation_dict['min'][0] = key
-                correlation_dict['min'][1] = second_key
+    for key in correlation_dictionary:
+        if correlation_dictionary[key][0] > correlation_dictionary[key][1]:
+            correlation_dictionary[key][0], correlation_dictionary[key][1] = \
+                correlation_dictionary[key][1], correlation_dictionary[key][0]
 
-    return minimum, maximum, correlation_dict
-
-
-def distance_from_zero(correlation):
-    """
-    returns correlation`s distance from zero
-    :param correlation: correlation
-    :return: distance from zero
-    """""
-
-    if correlation > 0:
-        return correlation
-    return correlation * (-1)
+    return weak, strong, correlation_dictionary
 
 
 if __name__ == '__main__':
