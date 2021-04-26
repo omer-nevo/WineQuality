@@ -43,12 +43,11 @@ def run_analysis():
             feature_name, mean(list_of_values), median(list_of_values), variance(list_of_values) ** 0.5))
 
     print('The strongest linear relationship is between: "{}","{}". '
-          'The value is: {:3.4f}'.format(linear_names['max'][0], linear_names['max'][1], high_correlation))
+          'The value is: {:3.4f}'.format(linear_names['strong'][0], linear_names['strong'][1], high_correlation))
 
     print('The weakest linear relationship is between: "{}","{}". '
-          'The value is: {:3.4f}'.format(linear_names['min'][0], linear_names['min'][1],
+          'The value is: {:3.4f}'.format(linear_names['weak'][0], linear_names['weak'][1],
                                          low_correlation))
-
 
 
 if __name__ == '__main__':
